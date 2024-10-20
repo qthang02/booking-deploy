@@ -8,20 +8,16 @@ services:
       MYSQL_DATABASE: booking
       MYSQL_USER: user
       MYSQL_PASSWORD: password
-    ports:
-      - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
     restart: always
 
   backend:
     build: ../booking-be
-    ports:
-      - "8080:8080"
     depends_on:
       - database
     environment:
-      - DB_HOST=db
+      - DB_HOST=database
       - DB_USER=user
       - DB_PASSWORD=password
       - DB_NAME=booking
@@ -37,7 +33,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ../nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - backend
 
